@@ -1,0 +1,3 @@
+Hello world!
+This is a simple text file.
+We will test our RAG pipeline.
