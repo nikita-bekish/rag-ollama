@@ -1,0 +1,26 @@
+{
+  "name": "rag-ollama-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "build:index": "ts-node src/buildIndex.ts",
+    "search": "ts-node src/search.ts",
+    "dev:index": "ts-node-dev src/buildIndex.ts",
+    "dev:search": "ts-node-dev src/search.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.13.2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
