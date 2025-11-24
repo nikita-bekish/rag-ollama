@@ -1,0 +1,24 @@
+JavaScript Closures Explained
+
+A closure in JavaScript is a function that remembers its outer variables even when executed outside 
+their original scope. Closures allow functions to access data that was available at the time of creation.
+
+Example:
+
+function createCounter() {
+    let count = 0;
+    return function () {
+        count++;
+        return count;
+    };
+}
+
+const counter = createCounter();
+counter(); // 1
+counter(); // 2
+
+Closures are powerful tools in JavaScript. They are used for data privacy, event handlers, 
+functional programming patterns, and asynchronous logic.
+
+Another example of closure usage is configuration functions, where the first function stores settings 
+and the second function performs logic based on them.
