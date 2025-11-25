@@ -1,6 +1,6 @@
 // src/embeddings.ts
 import axios from "axios";
-import { EMBEDDING_MODEL, OLLAMA_URL } from "./config";
+import { EMBEDDING_MODEL, OLLAMA_EMBEDDINGS_URL } from "./config";
 
 export type EmbeddingVector = number[];
 
@@ -9,7 +9,7 @@ export type EmbeddingVector = number[];
  */
 export async function getEmbedding(text: string): Promise<EmbeddingVector> {
   try {
-    const response = await axios.post(OLLAMA_URL, {
+    const response = await axios.post(OLLAMA_EMBEDDINGS_URL, {
       model: EMBEDDING_MODEL,
       prompt: text,
     });

@@ -6,6 +6,7 @@
     "build": "tsc",
     "build:index": "ts-node src/buildIndex.ts",
     "search": "ts-node src/search.ts",
+    "compare": "ts-node src/compareRAG.ts",
     "dev:index": "ts-node-dev src/buildIndex.ts",
     "dev:search": "ts-node-dev src/search.ts"
   },
