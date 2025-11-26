@@ -25,7 +25,7 @@ async function buildIndex() {
     console.log(`\nДокумент: ${doc.id}`);
     console.log("Разбивка на чанки...");
 
-    const chunks = chunkText(doc.text, doc.id, 500, 100);
+    const chunks = chunkText(doc.text, doc.id, 600, 150);
     console.log(`Получено чанков: ${chunks.length}`);
 
     for (const chunk of chunks) {
