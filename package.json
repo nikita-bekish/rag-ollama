@@ -10,6 +10,7 @@
     "dev:index": "ts-node-dev src/buildIndex.ts",
     "compare:filtering": "ts-node src/compareFiltering.ts",
     "test:citations": "ts-node src/testCitations.ts",
+    "test:docs": "ts-node src/testDocumentation.ts",
     "dev:search": "ts-node-dev src/search.ts"
   },
   "keywords": [],

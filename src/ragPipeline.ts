@@ -83,11 +83,12 @@ function parseCitations(
 
 /**
  * Валидация ответа на предмет галлюцинаций
- * Проверяет, что основные факты находятся в источниках
+ * Проверяет, что основные факты находятся в источниках И релевантны вопросу
  */
 function validateAnswerHallucinations(
   answerText: string,
-  relevantChunks: { chunk: string }[]
+  relevantChunks: { chunk: string }[],
+  question?: string
 ): { hasHallucinations: boolean; issues: string[] } {
   const issues: string[] = [];
 
@@ -109,8 +110,7 @@ function validateAnswerHallucinations(
   const chunksText = relevantChunks.map((c) => c.chunk).join(" ");
   const chunksTextLower = chunksText.toLowerCase();
 
-  // Проверяем ключевые слова из ответа присутствуют в источниках
-  // Исключаем служебные слова
+  // Стоп-слова (исключаются при проверке)
   const stopWords = new Set([
     "это",
     "что",
@@ -142,13 +142,10 @@ function validateAnswerHallucinations(
 
   // Проверяем, что хотя бы большинство значимых слов из ответа есть в источниках
   let matchedWords = 0;
-  const unmatchedWords: string[] = [];
 
   for (const word of answerWords) {
     if (chunksTextLower.includes(word)) {
       matchedWords++;
-    } else {
-      unmatchedWords.push(word);
     }
   }
 
@@ -165,6 +162,36 @@ function validateAnswerHallucinations(
   for (const number of numbers) {
     if (!chunksText.includes(number)) {
       issues.push(`⚠️ ЖЕЛТЫЙ ФЛАГ: Число "${number}" не найдено в источниках`);
+    }
+  }
+
+  // НОВАЯ ПРОВЕРКА: Релевантность ответа на вопрос
+  if (question) {
+    const questionWords = question
+      .toLowerCase()
+      .split(/[\s\.,!?;:()\[\]]+/)
+      .filter((w) => w.length > 2 && !stopWords.has(w));
+
+    // Проверяем, совпадают ли ключевые слова вопроса и ответа
+    const answerWordSet = new Set(answerWords);
+    let questionWordsMatched = 0;
+
+    for (const qWord of questionWords) {
+      if (answerWordSet.has(qWord)) {
+        questionWordsMatched++;
+      }
+    }
+
+    // Если менее 30% ключевых слов вопроса присутствует в ответе — возможно неправильный ответ
+    const questionMatchPercentage =
+      (questionWordsMatched / questionWords.length) * 100;
+    if (
+      questionWords.length > 2 &&
+      questionMatchPercentage < 30
+    ) {
+      issues.push(
+        `⚠️ ЖЕЛТЫЙ ФЛАГ: Ответ слабо соответствует вопросу (${questionMatchPercentage.toFixed(0)}% совпадения ключевых слов)`
+      );
     }
   }
 
@@ -458,10 +485,11 @@ ${context}
     };
   });
 
-  // 8. Валидируем ответ на галлюцинации
+  // 8. Валидируем ответ на галлюцинации (теперь с проверкой релевантности на вопрос)
   const { issues: hallucinations } = validateAnswerHallucinations(
     answerText,
-    relevantChunks
+    relevantChunks,
+    question  // Передаём вопрос для проверки релевантности
   );
 
   // 9. Возвращаем полный ответ с источниками и предупреждениями
