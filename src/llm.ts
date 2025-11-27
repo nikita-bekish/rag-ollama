@@ -1,5 +1,10 @@
 import axios from "axios";
-import { LLM_MODEL, OLLAMA_GENERATE_URL } from "./config";
+import {
+  LLM_MODEL,
+  LLM_TEMPERATURE,
+  LLM_TOP_P,
+  OLLAMA_GENERATE_URL,
+} from "./config";
 
 export async function generateText(prompt: string): Promise<string> {
   try {
@@ -7,6 +12,8 @@ export async function generateText(prompt: string): Promise<string> {
       model: LLM_MODEL,
       prompt: prompt,
       stream: false,
+      temperature: LLM_TEMPERATURE,
+      top_p: LLM_TOP_P,
     });
 
     if (!response.data || !response.data.response) {

@@ -1,9 +1,10 @@
 import { RERANKING_WEIGHTS } from "./config";
 
 export interface ScoredChunk {
-  chunk: string;
-  source: string;
-  score: number;
+  chunk: string; // текст чанка
+  source: string; // имя файла (company_handbook.md)
+  chunkId: string; // ID чанка (company_handbook.md-chunk-0)
+  score: number; // релевантность
 }
 
 function extractKeywords(text: string): Set<string> {

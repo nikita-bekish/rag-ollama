@@ -9,6 +9,7 @@
     "compare": "ts-node src/compareRAG.ts",
     "dev:index": "ts-node-dev src/buildIndex.ts",
     "compare:filtering": "ts-node src/compareFiltering.ts",
+    "test:citations": "ts-node src/testCitations.ts",
     "dev:search": "ts-node-dev src/search.ts"
   },
   "keywords": [],
