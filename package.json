@@ -11,7 +11,8 @@
     "compare:filtering": "ts-node src/compareFiltering.ts",
     "test:citations": "ts-node src/testCitations.ts",
     "test:docs": "ts-node src/testDocumentation.ts",
-    "dev:search": "ts-node-dev src/search.ts"
+    "dev:search": "ts-node-dev src/search.ts",
+    "chat": "ts-node src/chatbot.ts"
   },
   "keywords": [],
   "author": "",

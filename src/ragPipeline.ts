@@ -373,6 +373,7 @@ export async function answerWithRAG(
     topK?: number;
     minScore?: number;
     useReranking?: boolean;
+    conversationContext?: string;
   } = {}
 ): Promise<AnswerWithSources> {
   // 1. Найти релевантные чанки
@@ -398,12 +399,12 @@ export async function answerWithRAG(
   const context = contextParts.join("\n\n");
 
   // 4. Создаём промпт с ОБЯЗАТЕЛЬНЫМ требованием цитировать
-  const prompt = `Ты — помощник справки по документам. Отвечаешь ТОЛЬКО информацией из документов.
+  let prompt = `Ты — помощник справки по документам. Отвечаешь ТОЛЬКО информацией из документов.
+
+${options.conversationContext ? options.conversationContext + "\nНовый вопрос: " + question : "ВОПРОС: " + question}
 
 ДОКУМЕНТЫ (КОНТЕКСТ):
 ${context}
-
-ВОПРОС: ${question}
 
 🔒 ПРАВИЛА (СЛЕДУЙ ТОЧНО):
 
